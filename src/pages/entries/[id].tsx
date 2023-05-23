@@ -1,3 +1,5 @@
+
+import { useRouter } from 'next/router';
 import { ChangeEvent, useState, useMemo, FC, useContext } from 'react';
 import { GetServerSideProps } from 'next';
 
@@ -26,7 +28,10 @@ interface Props {
 export const EntryPage: FC<Props> = ({ entry }) => {
 
 
-    const { updateEntry } = useContext(EntriesContext)
+
+    const router = useRouter();
+
+    const { updateEntry, deleteEntry } = useContext(EntriesContext)
 
     const [inputValue, setInputValue] = useState(entry.description)
     const [status, setStatus] = useState<EntryStatus>(entry.status)
@@ -54,6 +59,12 @@ export const EntryPage: FC<Props> = ({ entry }) => {
         }
 
         updateEntry(updatedEntry, true);
+        router.push('/')
+    }
+
+    const onDelete = () => {
+        deleteEntry(entry, true);
+        router.push('/')
     }
 
     return (
@@ -117,12 +128,14 @@ export const EntryPage: FC<Props> = ({ entry }) => {
                     </Card>
                 </Grid>
             </Grid>
-            <IconButton sx={{
-                position: 'fixed',
-                bottom: 30,
-                right30: 30,
-                backgroundColor: 'red'
-            }}>
+            <IconButton
+                onClick={onDelete}
+                sx={{
+                    position: 'fixed',
+                    bottom: 30,
+                    right30: 30,
+                    backgroundColor: 'red'
+                }}>
                 <DeleteOutlinedIcon />
             </IconButton>
         </Layout>
@@ -146,7 +159,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             }
         }
     }
-
 
     return {
         props: {

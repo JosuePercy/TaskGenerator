@@ -20,6 +20,8 @@ function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     case "GET":
       return getEntry(req, res);
 
+    case "DELETE":
+      return deleteEntry(req, res);
     default:
       return res.status(400).json({ message: "Método no existe" });
   }
@@ -70,6 +72,21 @@ const getEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       .json({ message: "No hay peticion encontrada con ese ID " + id });
   }
   return res.status(200).json(entryInDB);
+};
+
+const deleteEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  console.log("entre en el api/entries/id/index.ts");
+  const { id } = req.query;
+
+  await db.connect();
+  const entryDBTodelete = await Entry.findByIdAndDelete(id);
+  await db.disconnect();
+
+  if (!entryDBTodelete) {
+    return res.status(400).json({ message: "No hay entrada con ese id " + id });
+  }
+
+  return res.status(200).json(entryDBTodelete);
 };
 
 export default handler;
