@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import NextLink from 'next/link';
+
+import { AppBar, IconButton, Toolbar, Typography, Link } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { UIContext } from '../../context/ui';
 
@@ -9,10 +11,8 @@ import { UIContext } from '../../context/ui';
 export const Navbar = () => {
     const { openSideMenu } = useContext(UIContext)
     return (
-        // Define la barra de navegación superior de la página
         <AppBar position="sticky" >
             <Toolbar>
-                {/* Define un icono de menú que se muestra en la barra de navegación */}
                 <IconButton
                     size='large'
                     edge='start'
@@ -20,7 +20,11 @@ export const Navbar = () => {
                 >
                     <MenuIcon />
                 </IconButton>
-                <Typography variant='h6'>OpenJira</Typography>
+                <NextLink href="/" passHref legacyBehavior>
+                    <Link underline='none' color='white'>
+                        <Typography variant='h6'>OpenJira</Typography>
+                    </Link>
+                </NextLink>
             </Toolbar>
         </AppBar>
     )

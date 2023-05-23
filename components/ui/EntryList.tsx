@@ -27,7 +27,6 @@ export const EntryList: FC<Props> = ({ status }) => {
     }
 
     const onDrogEntry = (event: DragEvent<HTMLDivElement>) => {
-        console.log('gaksopjkpfsajfjksa')
         const id = event.dataTransfer.getData('text');
 
         const entry = entries.find(e => e._id === id)!;

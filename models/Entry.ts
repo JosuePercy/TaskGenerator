@@ -5,7 +5,7 @@ export interface IEntry extends Entry {}
 
 const entrySchema = new Schema({
   description: { type: String, required: true },
-  createAt: { type: String },
+  createAt: { type: Number, required: true, default: Date.now() },
   status: {
     type: String,
     enum: {
@@ -15,8 +15,6 @@ const entrySchema = new Schema({
     default: "pending",
   },
 });
-
 const EntryModel: Model<IEntry> =
   mongoose.models.Entry || mongoose.model("Entry", entrySchema);
-
 export default EntryModel;
